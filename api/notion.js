@@ -2,17 +2,19 @@
 // 이 파일은 백엔드에서 실행되므로 API 키가 안전하게 보호됩니다.
 
 export default async function handler(req, res) {
-  // CORS 헤더 설정 (GitHub Pages 도메인 허용)
-  const allowedOrigins = [
-    'https://your-username.github.io',
-    'http://localhost:5500',
-    'http://127.0.0.1:5500'
-  ];
-  
+  // CORS 헤더 설정 (모든 로컬 개발 환경 허용)
   const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
+  
+  // 로컬 개발 환경 허용
+  if (origin && (origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('file://'))) {
     res.setHeader('Access-Control-Allow-Origin', origin);
   }
+  
+  // 프로덕션 도메인 (배포 후 설정)
+  // const allowedOrigins = ['https://your-username.github.io'];
+  // if (allowedOrigins.includes(origin)) {
+  //   res.setHeader('Access-Control-Allow-Origin', origin);
+  // }
   
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -62,7 +64,8 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        page_size: 100
+        page_size: 100,
+        sorts: []
       })
     });
 
