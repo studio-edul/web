@@ -1,11 +1,9 @@
-// Vercel Serverless Function - Notion Blocks API 프록시
-// 페이지의 블록(이미지 등)을 가져오기 위한 API
-
+// Next.js API Route - Notion Blocks API 프록시
 export default async function handler(req, res) {
   // CORS 헤더 설정
   const origin = req.headers.origin;
   
-  if (origin && (origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('file://'))) {
+  if (origin && (origin.includes('localhost') || origin.includes('127.0.0.1'))) {
     res.setHeader('Access-Control-Allow-Origin', origin);
   }
   

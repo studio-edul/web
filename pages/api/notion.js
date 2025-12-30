@@ -1,25 +1,16 @@
-// Vercel Serverless Function - Notion API 프록시
-// 이 파일은 백엔드에서 실행되므로 API 키가 안전하게 보호됩니다.
-
+// Next.js API Route - Notion API 프록시
 export default async function handler(req, res) {
-  // CORS 헤더 설정 (모든 로컬 개발 환경 허용)
+  // CORS 헤더 설정
   const origin = req.headers.origin;
   
-  // 로컬 개발 환경 허용
-  if (origin && (origin.includes('localhost') || origin.includes('127.0.0.1') || origin.includes('file://'))) {
+  if (origin && (origin.includes('localhost') || origin.includes('127.0.0.1'))) {
     res.setHeader('Access-Control-Allow-Origin', origin);
   }
-  
-  // 프로덕션 도메인 (배포 후 설정)
-  // const allowedOrigins = ['https://your-username.github.io'];
-  // if (allowedOrigins.includes(origin)) {
-  //   res.setHeader('Access-Control-Allow-Origin', origin);
-  // }
   
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // OPTIONS 요청 처리 (CORS preflight)
+  // OPTIONS 요청 처리
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -39,14 +30,6 @@ export default async function handler(req, res) {
     ARTWORK: process.env.NOTION_DB_ARTWORK
   };
 
-  // 디버깅: 환경 변수 확인
-  console.log('Environment variables:', {
-    hasApiKey: !!NOTION_API_KEY,
-    hasCV: !!DATABASES.CV,
-    hasWORK: !!DATABASES.WORK,
-    hasARTWORK: !!DATABASES.ARTWORK
-  });
-
   // API 키 확인
   if (!NOTION_API_KEY) {
     console.error('NOTION_API_KEY 환경 변수가 설정되지 않았습니다.');
@@ -64,9 +47,6 @@ export default async function handler(req, res) {
   const cleanedId = databaseId.trim().replace(/-/g, '');
   
   console.log(`Querying database: ${database}`);
-  console.log(`Original ID: ${databaseId}`);
-  console.log(`Cleaned ID: ${cleanedId}`);
-  console.log(`ID length: ${cleanedId.length} (should be 32)`);
 
   try {
     const response = await fetch(`https://api.notion.com/v1/databases/${cleanedId}/query`, {
