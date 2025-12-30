@@ -6,11 +6,12 @@ import { createSlug } from '@/lib/slug-utils';
 export default function ExhibitionImage({ exhibition }) {
   const { name, imageUrl } = exhibition;
   const slug = name ? createSlug(name) : null;
+  const href = slug ? `/work/${slug}` : '#';
 
   if (!imageUrl) return null;
 
   return (
-    <Link href={slug ? `/work/${slug}` : '#'} className="image-link">
+    <Link href={href} className="project-link">
       <div className="image-container">
         <Image
           src={imageUrl}

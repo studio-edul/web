@@ -169,6 +169,7 @@
     @apply relative block overflow-hidden;
     width: 100%;
     line-height: 0;
+    margin-bottom: 10px;
   }
 
   .image-container-full {
@@ -176,19 +177,22 @@
     width: 100%;
     max-width: var(--full-width-image);
     line-height: 0;
+    margin-bottom: 10px;
   }
 
   .project-image {
-    width: var(--column-width);
-    @apply h-auto mb-[10px] block;
+    @apply object-contain;
+    width: 100%;
+    height: auto;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
     display: block;
   }
 
   .project-image-full {
-    width: var(--full-width-image);
-    @apply h-auto mb-[10px] block;
+    @apply object-contain;
+    width: 100%;
+    height: auto;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
     display: block;
@@ -419,15 +423,23 @@
   }
 
   /* stroke 기반 SVG인 경우 */
-  .contact-icon-svg svg path[stroke],
-  .contact-icon-svg svg circle[stroke],
-  .contact-icon-svg svg rect[stroke] {
+  .contact-icon-svg svg path[stroke] {
     stroke: currentColor;
-    stroke-width: inherit;
   }
 
   .contact-icon-placeholder {
     width: 20px;
+    height: 20px;
+    background-color: #f0f0f0;
+  }
+
+  .contact-item:hover .contact-text {
+    text-decoration: underline;
+  }
+
+  /* Footer separator line */
+  .footer-separator {
+    width: 1px;
     height: 20px;
     background-color: #f0f0f0;
   }
