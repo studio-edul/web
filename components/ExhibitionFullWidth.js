@@ -35,11 +35,6 @@ export default function ExhibitionFullWidth({ exhibition }) {
           loading="lazy"
           quality={90}
           sizes={`${fullWidth}px`}
-          style={{
-            width: `${fullWidth}px`,
-            height: 'auto',
-            maxWidth: 'none',
-          }}
         />
       </div>
     </Link>

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { createSlug } from '@/lib/slug-utils';
 
-export default function ExhibitionItem({ exhibition, isFull }) {
+export default function ExhibitionItem({ exhibition, isFull, priority = false }) {
   const { name, period, description, imageUrl, index } = exhibition;
   const slug = name ? createSlug(name) : null;
 
@@ -32,14 +32,10 @@ export default function ExhibitionItem({ exhibition, isFull }) {
               width={595}
               height={400}
               className="project-image exhibition-image"
-              loading="lazy"
+              loading={priority ? undefined : "lazy"}
+              priority={priority}
               quality={90}
               sizes="595px"
-              style={{
-                width: '100%',
-                height: 'auto',
-                maxWidth: 'none',
-              }}
             />
           </div>
         )}

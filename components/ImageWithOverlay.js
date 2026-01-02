@@ -7,7 +7,8 @@ export default function ImageWithOverlay({
   name,
   timeline,
   description,
-  isFullWidth = false
+  isFullWidth = false,
+  priority = false
 }) {
   const WIDTH_COLUMN = 595;
   const WIDTH_FULL = 1200;
@@ -16,8 +17,8 @@ export default function ImageWithOverlay({
 
   const containerClass = isFullWidth ? 'image-container-full' : 'image-container';
   const imageWidth = isFullWidth ? WIDTH_FULL : WIDTH_COLUMN;
-  const imageHeight = isFullWidth ? 600 : 400; // Aspect ratio placeholder
-
+  const imageHeight = isFullWidth ? 600 : 400;
+  
   // sizes 속성으로 반응형 이미지 최적화
   const sizes = isFullWidth
     ? `${WIDTH_FULL}px`
@@ -35,13 +36,10 @@ export default function ImageWithOverlay({
           width={imageWidth}
           height={imageHeight}
           className={isFullWidth ? 'project-image-full' : 'project-image'}
-          loading="lazy"
+          loading={priority ? undefined : "lazy"}
+          priority={priority}
           quality={90}
           sizes={sizes}
-          style={{
-            width: '100%',
-            height: 'auto',
-          }}
         />
         <div className="overlay-text">
           <div className="overlay-text-title">{name || 'none'}</div>

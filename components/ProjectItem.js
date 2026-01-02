@@ -2,7 +2,7 @@ import ImageWithOverlay from './ImageWithOverlay';
 import Link from 'next/link';
 import { createSlug } from '@/lib/slug-utils';
 
-export default function ProjectItem({ project, artworkImages }) {
+export default function ProjectItem({ project, artworkImages, isFirstProject = false }) {
   const { name, period, description, index } = project;
   const slug = name ? createSlug(name) : null;
 
@@ -37,8 +37,14 @@ export default function ProjectItem({ project, artworkImages }) {
 
   // 이미지들을 index에 따라 배치
   if (artworkImages && artworkImages.length > 0) {
+    // 첫 번째 프로젝트의 모든 이미지에 priority 적용 (LCP 경고 해결)
+    let imageCount = 0;
     artworkImages.forEach((imageData) => {
       if (!imageData.url || imageData.url === '') return;
+
+      // 첫 번째 프로젝트의 첫 3개 이미지에 priority 적용
+      const shouldHavePriority = isFirstProject && imageCount < 3;
+      imageCount++;
 
       if (!imageData.index) {
         // Index가 없는 이미지는 왼쪽 열에 순서대로 추가
@@ -49,6 +55,7 @@ export default function ProjectItem({ project, artworkImages }) {
             name={imageData.name}
             timeline={imageData.timeline}
             description={imageData.description}
+            priority={shouldHavePriority}
           />
         );
         return;
@@ -64,6 +71,7 @@ export default function ProjectItem({ project, artworkImages }) {
             timeline={imageData.timeline}
             description={imageData.description}
             isFullWidth={true}
+            priority={shouldHavePriority}
           />
         );
         return;
@@ -83,6 +91,7 @@ export default function ProjectItem({ project, artworkImages }) {
               name={imageData.name}
               timeline={imageData.timeline}
               description={imageData.description}
+              priority={shouldHavePriority}
             />
           );
 

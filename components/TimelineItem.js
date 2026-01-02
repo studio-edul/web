@@ -1,6 +1,6 @@
 import ImageWithOverlay from './ImageWithOverlay';
 
-export default function TimelineItem({ timeline, artworkImages }) {
+export default function TimelineItem({ timeline, artworkImages, isFirstTimeline = false }) {
   const { name } = timeline;
 
   const columnArrays = {
@@ -19,6 +19,7 @@ export default function TimelineItem({ timeline, artworkImages }) {
 
   // 이미지들을 Timeline-Index에 따라 배치
   if (artworkImages && artworkImages.length > 0) {
+    let isFirstImage = isFirstTimeline;
     artworkImages.forEach((imageData) => {
       if (!imageData.url || imageData.url === '') return;
 
@@ -30,8 +31,10 @@ export default function TimelineItem({ timeline, artworkImages }) {
             imageUrl={imageData.url}
             name={imageData.name}
             timeline={name}
+            priority={isFirstImage}
           />
         );
+        isFirstImage = false;
         return;
       }
 
@@ -44,8 +47,10 @@ export default function TimelineItem({ timeline, artworkImages }) {
             name={imageData.name}
             timeline={name}
             isFullWidth={true}
+            priority={isFirstImage}
           />
         );
+        isFirstImage = false;
         return;
       }
 
@@ -62,8 +67,10 @@ export default function TimelineItem({ timeline, artworkImages }) {
               imageUrl={imageData.url}
               name={imageData.name}
               timeline={name}
+              priority={isFirstImage}
             />
           );
+          isFirstImage = false;
 
           // 텍스트가 이미 1열 1번 위치에 있으므로, 이미지 Index는 텍스트를 제외한 위치
           // Index "1,1"은 텍스트 위치이므로, 실제로는 텍스트 다음 위치(2)에 배치

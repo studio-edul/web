@@ -46,11 +46,6 @@ export default function ExhibitionText({ exhibition }) {
               loading="lazy"
               quality={90}
               sizes={`${columnWidth}px`}
-              style={{
-                width: `${columnWidth}px`,
-                height: 'auto',
-                maxWidth: 'none',
-              }}
             />
           </div>
         </Link>

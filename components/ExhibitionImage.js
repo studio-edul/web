@@ -22,11 +22,6 @@ export default function ExhibitionImage({ exhibition }) {
           loading="lazy"
           quality={90}
           sizes="595px"
-          style={{
-            width: '100%',
-            height: 'auto',
-            maxWidth: 'none',
-          }}
         />
       </div>
     </Link>

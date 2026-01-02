@@ -17,13 +17,18 @@ export default function WorkContent({ view, projects, artworkMap, exhibitions, t
 
     return (
       <div id="content-area">
-        {projects.map((project, idx) => (
-          <ProjectItem
-            key={project.name || idx}
-            project={project}
-            artworkImages={artworkMap[project.name] || []}
-          />
-        ))}
+        {projects.map((project, idx) => {
+          // 첫 번째 프로젝트의 첫 번째 이미지에 priority 적용
+          const isFirstProject = idx === 0;
+          return (
+            <ProjectItem
+              key={project.name || idx}
+              project={project}
+              artworkImages={artworkMap[project.name] || []}
+              isFirstProject={isFirstProject}
+            />
+          );
+        })}
       </div>
     );
   } else if (view === 'exhibition') {
@@ -74,7 +79,7 @@ export default function WorkContent({ view, projects, artworkMap, exhibitions, t
     };
 
     // Helper to determine column
-    const addToColumnArrays = (collection, arrays) => {
+    const addToColumnArrays = (collection, arrays, isFirstCollection = false) => {
       collection.forEach((exhibition, idx) => {
         const indexStr = String(exhibition.index).trim();
         const isFull = indexStr.toLowerCase() === 'full';
@@ -84,6 +89,7 @@ export default function WorkContent({ view, projects, artworkMap, exhibitions, t
             key={`${exhibition.name || idx}`}
             exhibition={exhibition}
             isFull={isFull}
+            priority={isFirstCollection && idx === 0}
           />
         );
 
@@ -112,8 +118,8 @@ export default function WorkContent({ view, projects, artworkMap, exhibitions, t
       });
     };
 
-    addToColumnArrays(soloExhibitions, soloColumnArrays);
-    addToColumnArrays(groupExhibitions, groupColumnArrays);
+    addToColumnArrays(soloExhibitions, soloColumnArrays, true);
+    addToColumnArrays(groupExhibitions, groupColumnArrays, false);
 
     return (
       <div id="content-area">
@@ -135,6 +141,7 @@ export default function WorkContent({ view, projects, artworkMap, exhibitions, t
                 key={`solo-mobile-${exhibition.name || idx}`}
                 exhibition={exhibition}
                 isFull={String(exhibition.index || '').trim().toLowerCase() === 'full'}
+                priority={idx === 0}
               />
             ))}
           </div>
@@ -158,6 +165,7 @@ export default function WorkContent({ view, projects, artworkMap, exhibitions, t
                 key={`group-mobile-${exhibition.name || idx}`}
                 exhibition={exhibition}
                 isFull={String(exhibition.index || '').trim().toLowerCase() === 'full'}
+                priority={false}
               />
             ))}
           </div>
@@ -186,6 +194,7 @@ export default function WorkContent({ view, projects, artworkMap, exhibitions, t
             <TimelineItem
               timeline={timeline}
               artworkImages={timelineImageMap[timeline.name] || []}
+              isFirstTimeline={idx === 0}
             />
           </div>
         ))}
