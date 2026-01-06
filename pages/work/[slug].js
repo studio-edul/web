@@ -23,6 +23,9 @@ export default function ArtworkDetail({ artwork }) {
   const column2Images = (artwork.images || []).filter(img => img.column === 2);
   // 2열 레이아웃을 위해 모든 이미지 합치기
   const allImages = [...column1Images, ...column2Images];
+  
+  // 3번째 열에 이미지가 없으면 2번째 열 이미지가 2, 3번 열을 합친 크기로 표시
+  const hasColumn2Images = column2Images.length > 0;
 
   // 이미지 클릭 핸들러
   const handleImageClick = (imageIndex) => {
@@ -124,6 +127,26 @@ export default function ArtworkDetail({ artwork }) {
                     // 문단 구분 (작은 간격)
                     return <div key={idx} className="artwork-detail-paragraph-break"></div>;
                   }
+                  
+                  // rich_text 배열인 경우 스타일 적용
+                  if (Array.isArray(paragraph)) {
+                    return (
+                      <p key={idx} className="artwork-detail-paragraph">
+                        {paragraph.map((textItem, textIdx) => {
+                          const text = textItem.plain_text || '';
+                          const annotations = textItem.annotations || {};
+                          
+                          // bold 처리
+                          if (annotations.bold) {
+                            return <strong key={textIdx}>{text}</strong>;
+                          }
+                          return <span key={textIdx}>{text}</span>;
+                        })}
+                      </p>
+                    );
+                  }
+                  
+                  // 문자열인 경우 (하위 호환성)
                   return <p key={idx} className="artwork-detail-paragraph">{paragraph}</p>;
                 })
               ) : (
@@ -134,7 +157,7 @@ export default function ArtworkDetail({ artwork }) {
         </div>
         
         {/* 2번째 열: column이 1인 이미지들 */}
-        <div className="artwork-detail-column artwork-detail-column-1">
+        <div className={`artwork-detail-column artwork-detail-column-1 ${!hasColumn2Images ? 'artwork-detail-column-full-width' : ''}`}>
           {column1Images.map((image, idx) => {
             const imageIndex = sortedImages.findIndex(img => img.path === image.path);
             return (

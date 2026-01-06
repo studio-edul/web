@@ -471,13 +471,28 @@
       max-width: 100%;
     }
 
-    /* 반응형 이미지 컬럼 숨김 */
-    .artwork-detail-container > .artwork-detail-column-responsive {
+    /* 기존 이미지 컬럼들을 숨김 */
+    .artwork-detail-container > .artwork-detail-column-1,
+    .artwork-detail-container > .artwork-detail-column-2 {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;
       height: 0 !important;
+      min-height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
       overflow: hidden !important;
+    }
+
+    /* 반응형 이미지 컬럼 표시 */
+    .artwork-detail-container > .artwork-detail-column-responsive {
+      display: flex !important;
+      flex-direction: column;
+      gap: 10px;
+      grid-column: 2;
+      visibility: visible !important;
+      opacity: 1 !important;
+      height: auto !important;
     }
   }
 
@@ -499,6 +514,11 @@
       grid-template-columns: 1fr;
     }
 
+    .artwork-detail-text-column {
+      grid-column: 1;
+      width: 100%;
+      max-width: 100%;
+    }
 
     /* 기존 이미지 컬럼들을 완전히 숨김 (그리드에서도 제외) */
     .artwork-detail-container > .artwork-detail-column-1,
@@ -518,8 +538,10 @@
       display: flex !important;
       flex-direction: column;
       gap: 10px;
+      grid-column: 1;
       visibility: visible !important;
       opacity: 1 !important;
+      height: auto !important;
     }
   }
 
@@ -532,7 +554,7 @@
   .artwork-detail-metadata {
     border-left: 1px solid black;
     padding-left: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
 
   .artwork-detail-artist{
@@ -558,7 +580,204 @@
     @apply font-sans;
     font-size: 14px;
     opacity: 1;
-    margin-top: 10px;
+    margin-bottom: 50px;
+  }
+
+  /* Exhibition ARTWORKS 섹션 */
+  .exhibition-detail-artworks-section {
+    margin-bottom: 50px;
+  }
+
+  .exhibition-detail-artworks-title {
+    @apply font-sans font-bold;
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+
+  .exhibition-detail-artworks-list {
+    @apply flex flex-col;
+    gap: 0;
+  }
+
+  .exhibition-detail-artwork-item {
+    @apply no-underline text-inherit block;
+    margin-bottom: 15px;
+  }
+
+  .exhibition-detail-artwork-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .exhibition-detail-artwork-name-wrapper {
+    margin-bottom: 5px;
+  }
+
+  .exhibition-detail-artwork-name {
+    @apply font-sans relative;
+    display: inline;
+    font-size: 14px;
+    margin-right: 0;
+    padding-right: 0;
+
+    background-image: linear-gradient(to right, black, black);
+    background-position: bottom left;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size 0.3s ease-out;
+  }
+
+  .exhibition-detail-artwork-name::after {
+    content: '→';
+    display: inline-block;
+    margin-left: 10px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  }
+
+  .exhibition-detail-artwork-item:hover .exhibition-detail-artwork-name::after {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .exhibition-detail-artwork-name::before {
+    content: none;
+  }
+
+  .exhibition-detail-artwork-item:hover .exhibition-detail-artwork-name {
+    background-size: 100% 1px;
+  }
+
+  .exhibition-detail-artwork-metadata {
+    border-left: 1px solid black;
+    padding-left: 10px;
+    @apply flex flex-col;
+  }
+
+  .exhibition-detail-artwork-artist,
+  .exhibition-detail-artwork-dimension,
+  .exhibition-detail-artwork-caption {
+    @apply font-sans;
+    font-size: 14px;
+    opacity: 0.3;
+    margin-bottom: 5px;
+  }
+
+  .exhibition-detail-artwork-artist:last-child,
+  .exhibition-detail-artwork-dimension:last-child,
+  .exhibition-detail-artwork-caption:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Exhibition Related Text 섹션 */
+  .exhibition-detail-related-text {
+    margin-top: 0;
+    margin-bottom: 50px;
+  }
+
+  .exhibition-detail-related-text .artwork-detail-name {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+
+  .exhibition-detail-related-links {
+    @apply flex flex-col;
+    margin-top: 0;
+  }
+
+  .exhibition-detail-related-link-wrapper {
+    border-left: 1px solid black;
+    padding-left: 10px;
+    margin-bottom: 10px;
+  }
+
+  .exhibition-detail-related-link-wrapper:last-child {
+    margin-bottom: 0;
+  }
+
+  .exhibition-detail-related-link {
+    @apply font-sans no-underline text-inherit block;
+    font-size: 14px;
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .exhibition-detail-related-link-text {
+    @apply font-sans relative;
+    display: inline;
+    font-size: 14px;
+    margin-right: 0;
+    padding-right: 0;
+
+    background-image: linear-gradient(to right, black, black);
+    background-position: bottom left;
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    transition: background-size 0.3s ease-out;
+  }
+
+  .exhibition-detail-related-link-text::after {
+    content: '→';
+    display: inline-block;
+    margin-left: 10px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  }
+
+  .exhibition-detail-related-link:hover .exhibition-detail-related-link-text::after {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .exhibition-detail-related-link-text::before {
+    content: none;
+  }
+
+  .exhibition-detail-related-link:hover .exhibition-detail-related-link-text {
+    background-size: 100% 1px;
+  }
+
+  /* Related Text 페이지 스타일 */
+  .related-text-page-container {
+    max-width: 1420px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  .related-text-page-title {
+    @apply font-sans font-bold;
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .related-text-page-content {
+    @apply font-sans;
+    font-size: 14px;
+    text-align: left;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .related-text-page-content .artwork-detail-paragraph {
+    @apply font-sans;
+    font-size: 14px;
+    opacity: 1;
+    line-height: 1.4;
+    margin: 0;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+    text-align: left;
+  }
+
+  .related-text-page-content .artwork-detail-paragraph:last-child {
+    margin-bottom: 0;
+  }
+
+  .related-text-page-content .artwork-detail-paragraph-break {
+    height: 0.7em;
+    margin: 0;
   }
 
   .artwork-detail-paragraph {
@@ -622,6 +841,13 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
+
+  /* 3번째 열에 이미지가 없을 때 2번째 열 이미지가 2, 3번 열을 합친 크기로 표시 */
+  @media (min-width: 1024px) {
+    .artwork-detail-column-full-width {
+      grid-column: 2 / span 2;
+    }
   }
 
   .artwork-detail-image-wrapper {

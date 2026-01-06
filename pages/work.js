@@ -1,10 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import WorkContent from '../components/WorkContent';
 import SideMenu from '../components/SideMenu';
 
 export default function Work({ projects, artworkMap, exhibitions, timelines, timelineImageMap }) {
-  const [currentView, setCurrentView] = useState('project');
+  // localStorage에서 마지막 뷰모드 불러오기
+  const [currentView, setCurrentView] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedView = localStorage.getItem('workViewMode');
+      if (savedView && ['project', 'exhibition', 'timeline'].includes(savedView)) {
+        return savedView;
+      }
+    }
+    return 'project';
+  });
+
+  // 뷰모드가 변경될 때마다 localStorage에 저장
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('workViewMode', currentView);
+    }
+  }, [currentView]);
 
   const viewOptions = [
     { id: 'project', label: 'PROJECT' },

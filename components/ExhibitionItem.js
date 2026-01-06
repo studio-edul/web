@@ -21,7 +21,7 @@ export default function ExhibitionItem({ exhibition, isFull, priority = false })
 
   return (
     <div className={`exhibition-item ${isFull ? 'is-full-width-item' : ''}`}>
-      <Link href={slug ? `/work/${slug}` : '#'} className="exhibition-item-link">
+      <Link href={slug ? `/exhibition/${slug}` : '#'} className="exhibition-item-link">
         <div className="exhibition-name">{name}</div>
         {descriptionHtml}
         {imageUrl && (

@@ -16,7 +16,7 @@ export default function Navigation() {
   const isIndexPage = currentPath === '/';
 
   return (
-    <nav className="flex justify-between items-center w-full max-w-[940px] mx-auto mb-[120px]">
+    <nav className="flex justify-between items-center w-full max-w-[940px] mx-auto mb-[120px] px-[15px]">
       <Link href="/" className="nav-logo">
         2
       </Link>
